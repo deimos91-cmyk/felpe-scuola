@@ -131,6 +131,14 @@ function fallbackImageSrc(product: Product, color: string) {
 
 export default function Page() {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => setIsMobile(window.innerWidth < 768);
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+    return () => window.removeEventListener("resize", updateIsMobile);
+  }, []);
 
   return (
     <div
@@ -154,18 +162,29 @@ export default function Page() {
           style={{
             maxWidth: 1200,
             margin: "0 auto",
-            padding: "22px 24px",
+            padding: isMobile ? "16px 18px" : "22px 24px",
             display: "flex",
-            alignItems: "center",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "flex-start" : "center",
             justifyContent: "space-between",
-            gap: 12,
+            gap: isMobile ? 10 : 12,
           }}
         >
-          <div>
-            <div style={{ fontSize: 32, fontWeight: 900 }}>Felpe 2025/2026</div>
-            <div style={{ opacity: 0.92, fontSize: 16 }}>Catalogo preordini • colori e taglie selezionabili</div>
+          <div style={{ display: "grid", gap: 4 }}>
+            <div style={{ fontSize: isMobile ? 26 : 32, fontWeight: 900 }}>Felpe 2025/2026</div>
+            <div style={{ opacity: 0.92, fontSize: isMobile ? 14 : 16 }}>
+              Catalogo preordini • colori e taglie selezionabili
+            </div>
           </div>
-          <img src="/rosmini.png" alt="Rosmini" style={{ height: 112, width: "auto" }} />
+          <img
+            src="/rosmini.png"
+            alt="Rosmini"
+            style={{
+              height: isMobile ? 78 : 112,
+              width: "auto",
+              alignSelf: isMobile ? "flex-start" : "center",
+            }}
+          />
         </div>
       </header>
 
@@ -276,7 +295,7 @@ function ProductCard({
   const firstColor = useMemo(() => product.colors[0] ?? "", [product.colors]);
   const [color, setColor] = useState(firstColor);
   const [size, setSize] = useState(product.sizes?.[0] ?? "");
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState("1");
   const [imgSrc, setImgSrc] = useState(buildImageSrc(product, firstColor));
   const [imgFailed, setImgFailed] = useState(false);
   const [triedFallback, setTriedFallback] = useState(false);
@@ -297,7 +316,8 @@ function ProductCard({
   };
 
   function goPreorder() {
-    const safeQty = Math.min(10, Math.max(1, Number(qty) || 1));
+    const parsedQty = Number.parseInt(qty, 10);
+    const safeQty = Number.isNaN(parsedQty) ? 1 : Math.min(10, Math.max(1, parsedQty));
     const url =
       `/preorder?productType=${encodeURIComponent(product.title)}` +
       `&modelKey=${encodeURIComponent(product.modelKey)}` +
@@ -404,7 +424,19 @@ function ProductCard({
             min={1}
             max={10}
             value={qty}
-            onChange={(e) => setQty(Math.min(10, Math.max(1, Number(e.target.value) || 1)))}
+            onChange={(e) => {
+              const raw = e.target.value;
+              if (raw === "") {
+                setQty("");
+                return;
+              }
+              const numeric = Number.parseInt(raw, 10);
+              if (Number.isNaN(numeric)) {
+                return;
+              }
+              const clamped = Math.min(10, Math.max(1, numeric));
+              setQty(String(clamped));
+            }}
             style={fieldStyle}
           />
         </div>
