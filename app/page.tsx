@@ -152,9 +152,10 @@ export default function Page() {
         style={{
           position: "sticky",
           top: 0,
-          zIndex: 30,
+          zIndex: 60,
           background: palette.primary,
           color: "#fff",
+          paddingTop: "env(safe-area-inset-top, 0px)",
           boxShadow: "0 12px 28px rgba(0,0,0,0.2)",
         }}
       >
