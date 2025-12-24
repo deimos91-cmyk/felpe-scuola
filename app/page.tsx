@@ -118,6 +118,9 @@ function buildImageSrc(product: Product, color: string) {
   if (product.modelKey === "KANGAROO" && product.variant === "kids") {
     return `/products/KANGAROO-Kids-${imgColor}.jpg`;
   }
+  if (product.modelKey === "WHALE" && product.variant === "kids") {
+    return `/products/WHALE-Kids-${imgColor}.jpg`;
+  }
   return `/products/${product.modelKey}-${imgColor}.jpg`;
 }
 
@@ -125,6 +128,9 @@ function fallbackImageSrc(product: Product, color: string) {
   const imgColor = product.modelKey === "TENERIFE" ? color : normalizeColor(color);
   if (product.modelKey === "KANGAROO" && product.variant === "kids") {
     return `/products/KANGAROO-${imgColor}.jpg`;
+  }
+  if (product.modelKey === "WHALE" && product.variant === "kids") {
+    return `/products/WHALE-${imgColor}.jpg`;
   }
   return "";
 }
