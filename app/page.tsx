@@ -130,7 +130,7 @@ function fallbackImageSrc(product: Product, color: string) {
     return `/products/KANGAROO-${imgColor}.jpg`;
   }
   if (product.modelKey === "WHALE" && product.variant === "kids") {
-    return `/products/WHALE-${imgColor}.jpg`;
+    return "";
   }
   return "";
 }
@@ -401,7 +401,17 @@ function ProductCard({
           <select
             value={color}
             onChange={(e) => {
-              setColor(e.target.value);
+              const nextColor = e.target.value;
+              const imgColor = product.modelKey === "TENERIFE" ? nextColor : normalizeColor(nextColor);
+              const finalPath = buildImageSrc(product, nextColor);
+              console.log("[ProductImage]", {
+                modelKey: product.modelKey,
+                variant: product.variant,
+                color: nextColor,
+                imgColor,
+                path: finalPath,
+              });
+              setColor(nextColor);
             }}
             style={fieldStyle}
           >
