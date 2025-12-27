@@ -1,0 +1,60 @@
+[
+  {
+    "title": "Felpa Adulto",
+    "modelKey": "KANGAROO",
+    "variant": "adult",
+    "price": 30,
+    "description": "Hoodie riciclata con cappuccio e tasca a marsupio.",
+    "details": ["Fit oversize", "Cotone e poliestere riciclati", "Peso 280 gr"],
+    "colors": ["Bianco", "Blu-Navy", "Bordeaux", "Celeste", "Cream", "Grigio-Oxford", "Havana", "Lilla", "Nero", "Rosa-Petalo", "Verde-Bosco"],
+    "sizes": ["S", "M", "L", "XL"]
+  },
+  {
+    "title": "Felpa Bambino",
+    "modelKey": "KANGAROO",
+    "variant": "kids",
+    "price": 30,
+    "description": "Hoodie riciclata per ragazzi.",
+    "details": ["Fit oversize", "Cotone e poliestere riciclati", "Peso 280 gr"],
+    "colors": ["Bianco", "Blu", "Grigio", "Nero"],
+    "sizes": ["XS", "S", "M", "L"]
+  },
+  {
+    "title": "Maglietta Adulto",
+    "modelKey": "WHALE",
+    "variant": "adult",
+    "price": 18,
+    "description": "T-shirt biologica, taglio unisex.",
+    "details": ["Fit regular", "Cotone biologico", "Peso 140 gr"],
+    "colors": ["Bianco", "Blu-Navy", "Bordeaux", "Celeste", "Cream", "Grigio-Oxford", "Havana", "Nero", "Rosa-Petalo", "Verde-Bosco"],
+    "sizes": ["S", "M", "L", "XL"]
+  },
+  {
+    "title": "Maglietta Bambino",
+    "modelKey": "WHALE",
+    "variant": "kids",
+    "price": 18,
+    "description": "T-shirt biologica per bambini.",
+    "details": ["Fit regular", "Cotone biologico", "Peso 140 gr"],
+    "colors": ["Bianco", "Blu-Navy", "Bordeaux", "Celeste", "Cream", "Grigio-Oxford", "Havana", "Nero", "Rosa-Petalo", "Verde-Bosco"],
+    "sizes": ["XS", "S", "M", "L"]
+  },
+  {
+    "title": "Borraccia",
+    "modelKey": "VOLCANO",
+    "variant": "standard",
+    "price": 14,
+    "description": "Borraccia termica 500 ml.",
+    "details": ["Acciaio inox", "Capacità 500 ml"],
+    "colors": ["Standard"]
+  },
+  {
+    "title": "Cappellino",
+    "modelKey": "TENERIFE",
+    "variant": "standard",
+    "price": 14,
+    "description": "Cap riciclato con visiera curva.",
+    "details": ["Poliestere riciclato", "Unisex, taglia unica"],
+    "colors": ["Nero", "Blu-Navy"]
+  }
+]

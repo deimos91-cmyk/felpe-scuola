@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import productsData from "../data/products.json";
+import productManifestData from "../generated/products-manifest.json";
 
 type Variant = "adult" | "kids" | "standard";
 type ModelKey = "KANGAROO" | "WHALE" | "VOLCANO" | "TENERIFE";
@@ -17,6 +19,11 @@ type Product = {
   sizes?: string[];
 };
 
+type ProductManifest = {
+  entries: Record<string, string>;
+  placeholders: Partial<Record<Variant | "default", string>>;
+};
+
 const palette = {
   primary: "#0b3d91",
   secondary: "#5dade2",
@@ -27,112 +34,51 @@ const palette = {
   border: "#c8d4ea",
 };
 
-const FELPA_ADULT_COLORS = [
-  "Bianco",
-  "Blu-Navy",
-  "Bordeaux",
-  "Celeste",
-  "Cream",
-  "Grigio-Oxford",
-  "Havana",
-  "Lilla",
-  "Nero",
-  "Rosa-Petalo",
-  "Verde-Bosco",
-];
-
-const FELPA_KIDS_COLORS = ["Bianco", "Blu", "Grigio", "Nero"];
-const MAGLIETTE_COLORS = FELPA_ADULT_COLORS.filter((c) => c !== "Lilla");
-
-const PRODUCTS: Product[] = [
-  {
-    title: "Felpa Adulto",
-    modelKey: "KANGAROO",
-    variant: "adult",
-    price: 30,
-    description: "Hoodie riciclata con cappuccio e tasca a marsupio.",
-    details: ["Fit oversize", "Cotone e poliestere riciclati", "Peso 280 gr"],
-    colors: FELPA_ADULT_COLORS,
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    title: "Felpa Bambino",
-    modelKey: "KANGAROO",
-    variant: "kids",
-    price: 30,
-    description: "Hoodie riciclata per ragazzi.",
-    details: ["Fit oversize", "Cotone e poliestere riciclati", "Peso 280 gr"],
-    colors: FELPA_KIDS_COLORS,
-    sizes: ["XS", "S", "M", "L"],
-  },
-  {
-    title: "Maglietta Adulto",
-    modelKey: "WHALE",
-    variant: "adult",
-    price: 18,
-    description: "T-shirt biologica, taglio unisex.",
-    details: ["Fit regular", "Cotone biologico", "Peso 140 gr"],
-    colors: MAGLIETTE_COLORS,
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    title: "Maglietta Bambino",
-    modelKey: "WHALE",
-    variant: "kids",
-    price: 18,
-    description: "T-shirt biologica per bambini.",
-    details: ["Fit regular", "Cotone biologico", "Peso 140 gr"],
-    colors: MAGLIETTE_COLORS,
-    sizes: ["XS", "S", "M", "L"],
-  },
-  {
-    title: "Borraccia",
-    modelKey: "VOLCANO",
-    variant: "standard",
-    price: 14,
-    description: "Borraccia termica 500 ml.",
-    details: ["Acciaio inox", "Capacità 500 ml"],
-    colors: ["Standard"],
-  },
-  {
-    title: "Cappellino",
-    modelKey: "TENERIFE",
-    variant: "standard",
-    price: 14,
-    description: "Cap riciclato con visiera curva.",
-    details: ["Poliestere riciclato", "Unisex, taglia unica"],
-    colors: ["Nero", "Blu-Navy"],
-  },
-];
+const PRODUCTS = productsData as unknown as Product[];
+const productManifest = productManifestData as unknown as ProductManifest;
 
 const COLOR_IMAGE_MAP: Record<string, string> = {
   "Blu-Navy": "Blue-Navy",
 };
 
-function normalizeColor(color: string) {
+function normalizeColorForModel(modelKey: ModelKey, color: string) {
+  if (modelKey === "TENERIFE") {
+    return color;
+  }
   return COLOR_IMAGE_MAP[color] ?? color;
 }
 
+function canonicalColor(modelKey: ModelKey, color: string) {
+  return normalizeColorForModel(modelKey, color).trim().toLowerCase().replace(/[\s_]+/g, "-");
+}
+
+function manifestKey(modelKey: ModelKey, variant: Variant, color: string) {
+  return `${modelKey.toLowerCase()}|${variant.toLowerCase()}|${canonicalColor(modelKey, color)}`;
+}
+
+function pickPlaceholder(variant: Variant) {
+  return productManifest.placeholders[variant] ?? productManifest.placeholders.default ?? "/products/placeholder-adult.jpg";
+}
+
 function buildImageSrc(product: Product, color: string) {
-  const imgColor = product.modelKey === "TENERIFE" ? color : normalizeColor(color);
-  if (product.modelKey === "KANGAROO" && product.variant === "kids") {
-    return `/products/KANGAROO-Kids-${imgColor}.jpg`;
+  const key = manifestKey(product.modelKey, product.variant, color);
+  const manifestPath = productManifest.entries[key];
+  if (manifestPath) {
+    return manifestPath;
   }
-  if (product.modelKey === "WHALE" && product.variant === "kids") {
-    return `/products/WHALE-Kids-${imgColor}.jpg`;
-  }
-  return `/products/${product.modelKey}-${imgColor}.jpg`;
+  const placeholder = pickPlaceholder(product.variant);
+  console.error("[ProductImageMissing]", {
+    modelKey: product.modelKey,
+    variant: product.variant,
+    color,
+    normalizedColor: normalizeColorForModel(product.modelKey, color),
+    key,
+  });
+  return placeholder;
 }
 
 function fallbackImageSrc(product: Product, color: string) {
-  const imgColor = product.modelKey === "TENERIFE" ? color : normalizeColor(color);
-  if (product.modelKey === "KANGAROO" && product.variant === "kids") {
-    return `/products/KANGAROO-${imgColor}.jpg`;
-  }
-  if (product.modelKey === "WHALE" && product.variant === "kids") {
-    return "";
-  }
-  return "";
+  return pickPlaceholder(product.variant);
 }
 
 export default function Page() {
@@ -402,7 +348,7 @@ function ProductCard({
             value={color}
             onChange={(e) => {
               const nextColor = e.target.value;
-              const imgColor = product.modelKey === "TENERIFE" ? nextColor : normalizeColor(nextColor);
+              const imgColor = normalizeColorForModel(product.modelKey, nextColor);
               const finalPath = buildImageSrc(product, nextColor);
               console.log("[ProductImage]", {
                 modelKey: product.modelKey,
