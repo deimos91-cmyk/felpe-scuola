@@ -40,6 +40,8 @@ main,
   max-width: 100vw !important;
   display: block !important;
   z-index: 9999 !important;
+  transform: none !important;
+  zoom: 1 !important;
 }
 
 .siteBannerInner {
