@@ -10,11 +10,14 @@ import {
 } from "firebase/auth";
 import {
   collection,
+  deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
 
 type OrderRow = {
@@ -37,6 +40,9 @@ export default function AdminPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
   const [onlyNew, setOnlyNew] = useState(false);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deletingAll, setDeletingAll] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
@@ -117,6 +123,7 @@ export default function AdminPage() {
   }
 
   async function markAsSeen(id: string) {
+    setActionError(null);
     setUpdatingId(id);
     try {
       await updateDoc(doc(db, "orders", id), { status: "seen" });
@@ -125,6 +132,59 @@ export default function AdminPage() {
       alert("Impossibile aggiornare l'ordine.");
     } finally {
       setUpdatingId(null);
+    }
+  }
+
+  async function deleteOrder(id: string) {
+    setActionError(null);
+    const ok = window.confirm("Eliminare questo ordine?");
+    if (!ok) return;
+    setDeletingId(id);
+    try {
+      await deleteDoc(doc(db, "orders", id));
+    } catch (err) {
+      console.error(err);
+      setActionError("Impossibile eliminare l'ordine.");
+      alert("Impossibile eliminare l'ordine.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
+  async function deleteAllOrders() {
+    setActionError(null);
+    const ok = window.confirm("Eliminare TUTTI gli ordini?");
+    if (!ok) return;
+    setDeletingAll(true);
+    try {
+      const snap = await getDocs(collection(db, "orders"));
+      if (snap.empty) {
+        return;
+      }
+      const batches: ReturnType<typeof writeBatch>[] = [];
+      let batch = writeBatch(db);
+      let count = 0;
+      snap.forEach((docSnap) => {
+        batch.delete(docSnap.ref);
+        count += 1;
+        if (count === 450) {
+          batches.push(batch);
+          batch = writeBatch(db);
+          count = 0;
+        }
+      });
+      if (count > 0 || batches.length === 0) {
+        batches.push(batch);
+      }
+      for (const b of batches) {
+        await b.commit();
+      }
+    } catch (err) {
+      console.error(err);
+      setActionError("Impossibile eliminare tutti gli ordini.");
+      alert("Impossibile eliminare tutti gli ordini.");
+    } finally {
+      setDeletingAll(false);
     }
   }
 
@@ -174,6 +234,14 @@ export default function AdminPage() {
                 />
                 Solo nuovi
               </label>
+              <button
+                type="button"
+                onClick={deleteAllOrders}
+                disabled={deletingAll}
+                style={{ ...buttonStyle, background: "#ef4444", color: "#fff" }}
+              >
+                {deletingAll ? "Elimino..." : "Elimina tutti"}
+              </button>
               <button
                 onClick={() => signOut(auth)}
                 style={buttonStyle}
@@ -244,6 +312,9 @@ export default function AdminPage() {
               overflowX: "auto",
             }}
           >
+            {actionError ? (
+              <p style={{ color: "#f87171", margin: "0 0 12px" }}>{actionError}</p>
+            ) : null}
             {filteredOrders.length === 0 ? (
               <p style={{ margin: 0, color: "#cbd5e1" }}>Nessun ordine.</p>
             ) : (
@@ -265,7 +336,7 @@ export default function AdminPage() {
                     <th style={thStyle}>Qty</th>
                     <th style={thStyle}>Note</th>
                     <th style={thStyle}>Stato</th>
-                    <th style={thStyle}></th>
+                    <th style={thStyle}>Azioni</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -283,25 +354,40 @@ export default function AdminPage() {
                       </td>
                       <td style={tdStyle}>{order.status || "new"}</td>
                       <td style={{ ...tdStyle, textAlign: "right" }}>
-                        {order.status === "seen" ? (
-                          <span style={{ color: "#22c55e", fontWeight: 600 }}>
-                            Visto
-                          </span>
-                        ) : (
+                        <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", flexWrap: "wrap" }}>
+                          {order.status === "seen" ? (
+                            <span style={{ color: "#22c55e", fontWeight: 600 }}>
+                              Visto
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => markAsSeen(order.id)}
+                              disabled={updatingId === order.id}
+                              style={{
+                                ...buttonStyle,
+                                opacity: updatingId === order.id ? 0.6 : 1,
+                              }}
+                            >
+                              {updatingId === order.id
+                                ? "Aggiorno..."
+                                : "Segna come visto"}
+                            </button>
+                          )}
                           <button
                             type="button"
-                            onClick={() => markAsSeen(order.id)}
-                            disabled={updatingId === order.id}
+                            onClick={() => deleteOrder(order.id)}
+                            disabled={deletingId === order.id}
                             style={{
                               ...buttonStyle,
-                              opacity: updatingId === order.id ? 0.6 : 1,
+                              background: "#ef4444",
+                              color: "#fff",
+                              opacity: deletingId === order.id ? 0.6 : 1,
                             }}
                           >
-                            {updatingId === order.id
-                              ? "Aggiorno..."
-                              : "Segna come visto"}
+                            {deletingId === order.id ? "Elimino..." : "Elimina"}
                           </button>
-                        )}
+                        </div>
                       </td>
                     </tr>
                   ))}
