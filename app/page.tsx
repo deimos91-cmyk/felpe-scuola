@@ -53,10 +53,14 @@ function canonicalColor(modelKey: ModelKey, color: string) {
 }
 
 function manifestKey(modelKey: ModelKey, variant: Variant, color: string) {
-  return `${modelKey.toLowerCase()}|${variant.toLowerCase()}|${canonicalColor(modelKey, color)}`;
+  const colorKey = canonicalColor(modelKey, color);
+  return `${modelKey}__${variant}__${colorKey}`;
 }
 
 function pickPlaceholder(variant: Variant) {
+  if (variant === "kids") {
+    return productManifest.placeholders.kids ?? "/products/placeholder-kids.jpg";
+  }
   return productManifest.placeholders[variant] ?? productManifest.placeholders.default ?? "/products/placeholder-adult.jpg";
 }
 
@@ -109,6 +113,10 @@ export default function Page() {
           color: "#fff",
           paddingTop: "env(safe-area-inset-top, 0px)",
           boxShadow: "0 12px 28px rgba(0,0,0,0.2)",
+          width: "100vw",
+          maxWidth: "100vw",
+          marginLeft: "calc(50% - 50vw)",
+          marginRight: "calc(50% - 50vw)",
         }}
       >
         <div

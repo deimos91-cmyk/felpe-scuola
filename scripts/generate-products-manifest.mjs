@@ -25,7 +25,8 @@ function canonicalColor(modelKey, color) {
 }
 
 function manifestKey(product, color) {
-  return `${product.modelKey.toLowerCase()}|${product.variant.toLowerCase()}|${canonicalColor(product.modelKey, color)}`;
+  const colorKey = canonicalColor(product.modelKey, color);
+  return `${product.modelKey}__${product.variant}__${colorKey}`;
 }
 
 function expectedBase(product, color) {
@@ -58,6 +59,11 @@ for (const product of products) {
     const key = manifestKey(product, color);
     const match = baseToActual.get(baseName.toLowerCase());
     if (match) {
+      if (entries[key] && entries[key] !== `/products/${match}`) {
+        throw new Error(
+          `Duplicate manifest key ${key} detected with different files: ${entries[key]} vs /products/${match}`,
+        );
+      }
       entries[key] = `/products/${match}`;
     } else {
       missing.push({ product: product.title, modelKey: product.modelKey, variant: product.variant, color, expected: baseName });
