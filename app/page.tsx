@@ -95,7 +95,9 @@ export default function Page() {
     const update = () => {
       setIsMobile(window.innerWidth < 768);
       if (headerRef.current) {
-        setHeaderHeight(headerRef.current.getBoundingClientRect().height);
+        const h = headerRef.current.getBoundingClientRect().height;
+        setHeaderHeight(h);
+        document.documentElement.style.setProperty("--banner-h", `${Math.ceil(h)}px`);
       }
     };
     update();
@@ -112,6 +114,7 @@ export default function Page() {
       }}
     >
       <header
+        className="siteBanner"
         ref={headerRef}
         style={{
           position: "fixed",
@@ -130,6 +133,7 @@ export default function Page() {
         }}
       >
         <div
+          className="siteBannerInner"
           style={{
             maxWidth: 1200,
             margin: "0 auto",
@@ -159,7 +163,13 @@ export default function Page() {
         </div>
       </header>
 
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: `${headerHeight + 18}px 22px 40px` }}>
+      <main
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: `calc(var(--banner-h, ${headerHeight}px) + 18px) 22px 40px`,
+        }}
+      >
         <section
           style={{
             background: palette.card,
