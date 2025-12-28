@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import productsData from "../data/products.json";
 import productManifestData from "../generated/products-manifest.json";
@@ -88,12 +88,19 @@ function fallbackImageSrc(product: Product, color: string) {
 export default function Page() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const [headerHeight, setHeaderHeight] = useState(140);
 
-  useEffect(() => {
-    const updateIsMobile = () => setIsMobile(window.innerWidth < 768);
-    updateIsMobile();
-    window.addEventListener("resize", updateIsMobile);
-    return () => window.removeEventListener("resize", updateIsMobile);
+  useLayoutEffect(() => {
+    const update = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.getBoundingClientRect().height);
+      }
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
   return (
@@ -105,18 +112,18 @@ export default function Page() {
       }}
     >
       <header
+        ref={headerRef}
         style={{
-          position: "sticky",
+          position: "fixed",
           top: 0,
-          zIndex: 60,
+          left: 0,
+          right: 0,
+          zIndex: 9999,
+          width: "100vw",
           background: palette.primary,
           color: "#fff",
           paddingTop: "env(safe-area-inset-top, 0px)",
           boxShadow: "0 12px 28px rgba(0,0,0,0.2)",
-          width: "100vw",
-          maxWidth: "100vw",
-          marginLeft: "calc(50% - 50vw)",
-          marginRight: "calc(50% - 50vw)",
         }}
       >
         <div
@@ -149,7 +156,7 @@ export default function Page() {
         </div>
       </header>
 
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "26px 22px 40px" }}>
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: `${headerHeight + 18}px 22px 40px` }}>
         <section
           style={{
             background: palette.card,
