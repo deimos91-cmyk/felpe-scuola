@@ -182,7 +182,7 @@ export default function Page() {
         >
           <h1 style={{ margin: 0, fontSize: 30 }}>Catalogo ordini</h1>
           <p style={{ marginTop: 8, marginBottom: 0, color: palette.muted, fontSize: 17 }}>
-            Seleziona colore, taglia e quantità (1–10). Poi clicca <b style={{ color: palette.text }}>Preordina</b> per
+            Seleziona colore, taglia e quantità (1–10). Poi clicca <b style={{ color: palette.text }}>ordina</b> per
             completare su /preorder.
           </p>
         </section>
