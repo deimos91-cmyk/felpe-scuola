@@ -169,7 +169,7 @@ export default function PreorderClient() {
         >
           <h1 style={{ margin: "0 0 10px", fontSize: 28 }}>Ordine ricevuto!</h1>
           <p style={{ margin: "0 0 16px", color: palette.muted }}>
-            Abbiamo registrato il tuo preordine. Riceverai conferma a scuola.
+            PER CONFERMARE IL TUO ORDINE COMPILA IL MODULO DI RIEPILOGO SUL REGISTRO ELETTRONICO E CONSEGNALO INSIME ALLA QUOTA
           </p>
           <Link
             href="/"
@@ -205,7 +205,7 @@ export default function PreorderClient() {
       >
         <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
           <div>
-            <div style={{ fontSize: 28, fontWeight: 900 }}>Conferma preordine</div>
+            <div style={{ fontSize: 28, fontWeight: 900 }}>Conferma ordine</div>
             <div style={{ opacity: 0.92 }}>Compila i dati e invia: consegna e pagamento a scuola.</div>
           </div>
           <button

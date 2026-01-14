@@ -148,7 +148,7 @@ export default function Page() {
           <div style={{ display: "grid", gap: 4 }}>
             <div style={{ fontSize: isMobile ? 26 : 32, fontWeight: 900 }}>Felpe 2025/2026</div>
             <div style={{ opacity: 0.92, fontSize: isMobile ? 14 : 16 }}>
-              Catalogo preordini • colori e taglie selezionabili
+              Catalogo ordini • colori e taglie selezionabili
             </div>
           </div>
           <img
@@ -180,7 +180,7 @@ export default function Page() {
             marginBottom: 18,
           }}
         >
-          <h1 style={{ margin: 0, fontSize: 30 }}>Catalogo preordini</h1>
+          <h1 style={{ margin: 0, fontSize: 30 }}>Catalogo ordini</h1>
           <p style={{ marginTop: 8, marginBottom: 0, color: palette.muted, fontSize: 17 }}>
             Seleziona colore, taglia e quantità (1–10). Poi clicca <b style={{ color: palette.text }}>Preordina</b> per
             completare su /preorder.
@@ -213,18 +213,6 @@ function SizeGuide() {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
         <h2 style={{ margin: 0, fontSize: 24 }}>Guida alle taglie</h2>
-        <span
-          style={{
-            fontSize: 14,
-            color: palette.muted,
-            background: palette.card,
-            padding: "6px 10px",
-            borderRadius: 999,
-            border: `1px solid ${palette.border}`,
-          }}
-        >
-          Se sei indeciso prendi una taglia in più
-        </span>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, marginTop: 12 }}>
         <div
@@ -241,7 +229,6 @@ function SizeGuide() {
             <li>M: 165-175 cm • vestibilità regolare</li>
             <li>L: 175-185 cm • vestibilità comoda</li>
             <li>XL: 185-195 cm • vestibilità morbida</li>
-            <li style={{ marginTop: 6, color: palette.text }}>Se sei indeciso prendi una taglia in più.</li>
           </ul>
         </div>
         <div
@@ -258,7 +245,6 @@ function SizeGuide() {
             <li>S: 7-8 anni • ~119-128 cm</li>
             <li>M: 9-10 anni • ~129-140 cm</li>
             <li>L: 11-12 anni • ~141-152 cm</li>
-            <li style={{ marginTop: 6, color: palette.text }}>Se sei indeciso prendi una taglia in più.</li>
           </ul>
         </div>
       </div>
@@ -447,7 +433,7 @@ function ProductCard({
               boxShadow: "0 10px 20px rgba(11, 61, 145, 0.2)",
             }}
           >
-            Preordina
+            ordina
           </button>
           <div style={{ color: palette.muted, fontSize: 15 }}>Consegna a scuola • Pagamento alla consegna</div>
         </div>

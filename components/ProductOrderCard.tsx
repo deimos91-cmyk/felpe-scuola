@@ -203,7 +203,7 @@ export default function ProductOrderCard({ product }: Props) {
           type="submit"
           style={buttonStyle}
         >
-          Preordina
+          ordina
         </button>
       </form>
     </article>
