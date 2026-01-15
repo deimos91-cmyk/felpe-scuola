@@ -146,7 +146,7 @@ export default function Page() {
           }}
         >
           <div style={{ display: "grid", gap: 4 }}>
-            <div style={{ fontSize: isMobile ? 26 : 32, fontWeight: 900 }}>Felpe 2025/2026</div>
+            <div style={{ fontSize: isMobile ? 26 : 32, fontWeight: 900 }}>sosteniamo la vita con il progetto adozione a distanza -Felpe 2025/2026</div>
             <div style={{ opacity: 0.92, fontSize: isMobile ? 14 : 16 }}>
               Catalogo ordini • colori e taglie selezionabili
             </div>

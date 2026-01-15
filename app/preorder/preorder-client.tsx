@@ -169,7 +169,7 @@ export default function PreorderClient() {
         >
           <h1 style={{ margin: "0 0 10px", fontSize: 28 }}>Ordine ricevuto!</h1>
           <p style={{ margin: "0 0 16px", color: palette.muted }}>
-            PER CONFERMARE IL TUO ORDINE COMPILA IL MODULO DI RIEPILOGO SUL REGISTRO ELETTRONICO E CONSEGNALO INSIME ALLA QUOTA
+            PER CONFERMARE IL TUO ORDINE COMPILA IL MODULO DI RIEPILOGO SUL REGISTRO ELETTRONICO E CONSEGNALO INSIEME ALLA QUOTA
           </p>
           <Link
             href="/"
