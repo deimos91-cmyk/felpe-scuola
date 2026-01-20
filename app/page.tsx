@@ -223,7 +223,7 @@ function SizeGuide() {
             border: `1px solid ${palette.border}`,
           }}
         >
-          <h3 style={{ margin: "0 0 8px 0", fontSize: 19 }}>FFELPA CON CAPPUCCIO E ZIP-bambino</h3>
+          <h3 style={{ margin: "0 0 8px 0", fontSize: 19 }}>FELPA CON CAPPUCCIO E ZIP-bambino</h3>
           <ul style={{ margin: 0, paddingLeft: 18, color: palette.muted, lineHeight: 1.6 }}>
             <li>4/6 anni: torace 36,7  lunghezza 45,9  manica 40,65</li>
             <li>6/8 anni: torace 38,4  lunghezza 50,7  manica 44,85</li>
@@ -242,11 +242,12 @@ function SizeGuide() {
         >
           <h3 style={{ margin: "0 0 8px 0", fontSize: 19 }}>Bambino</h3>
           <ul style={{ margin: 0, paddingLeft: 18, color: palette.muted, lineHeight: 1.6 }}>
-            <li>XXS: 2-4 anni • ~98-110 cm (<strong>felpe disponibili solo in blu navy</strong>)</li>
-<li>XS: 5-6 anni • ~110-118 cm</li>
-<li>S: 7-8 anni • ~119-128 cm</li>
-<li>M: 9-10 anni • ~129-140 cm</li>
-<li>L: 11-12 anni • ~141-152 cm</li>. 
+            <li>2/4 anni: (<strong>felpe disponibili solo in blu navy</strong>)</li>
+<li>4/6 anni: torace 36,7 • lunghezza 45,9 • manica 40,65</li>
+<li>6/8 anni: torace 38,4 • lunghezza 50,7 • manica 44,85</li>
+<li>8/10 anni: torace 41,0 • lunghezza 55,5 • manica 49,25</li>
+<li>10/12 anni: torace 44,5 • lunghezza 60,3 • manica 53,85</li>
+<li>12/14 anni: torace 48,0 • lunghezza 65,1 • manica 58,45</li>
           </ul>
         </div>
       </div>
