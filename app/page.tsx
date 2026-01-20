@@ -223,14 +223,21 @@ function SizeGuide() {
             border: `1px solid ${palette.border}`,
           }}
         >
-          <h3 style={{ margin: "0 0 8px 0", fontSize: 19 }}>FELPA CON CAPPUCCIO E ZIP-bambino</h3>
-          <ul style={{ margin: 0, paddingLeft: 18, color: palette.muted, lineHeight: 1.6 }}>
-            <li>4/6 anni: torace 36,7  lunghezza 45,9  manica 40,65</li>
-            <li>6/8 anni: torace 38,4  lunghezza 50,7  manica 44,85</li>
-            <li>8/10 anni: torace 41,0  lunghezza 55,5  manica 49,25</li>
-            <li>10/12 anni: torace 44,5  lunghezza 60,3  manica 53,85</li>
-            <li>12/14 anni: torace 48,0  lunghezza 65,1  manica 58,45</li>
-          </ul>
+          <h3 style={{ margin: "0 0 8px 0", fontSize: 19 }}>KANGAROO – Felpa con cappuccio</h3>
+<ul style={{ margin: 0, paddingLeft: 18, color: palette.muted, lineHeight: 1.6 }}>
+  <li>S: lunghezza 68 • larghezza 53</li>
+  <li>M: lunghezza 70 • larghezza 55</li>
+  <li>L: lunghezza 72 • larghezza 57</li>
+  <li>XL: lunghezza 74 • larghezza 59</li>
+</ul>
+
+<h3 style={{ margin: "12px 0 8px 0", fontSize: 19 }}>WHALE – T-shirt</h3>
+<ul style={{ margin: 0, paddingLeft: 18, color: palette.muted, lineHeight: 1.6 }}>
+  <li>S: lunghezza 70 • larghezza 50</li>
+  <li>M: lunghezza 72 • larghezza 53</li>
+  <li>L: lunghezza 74 • larghezza 56</li>
+  <li>XL: lunghezza 76 • larghezza 59</li>
+</ul>
         </div>
         <div
           style={{
