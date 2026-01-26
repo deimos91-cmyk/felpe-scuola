@@ -9,6 +9,7 @@ type Variant = "adult" | "kids" | "standard";
 type ModelKey = "KANGAROO" | "WHALE" | "VOLCANO" | "TENERIFE";
 
 type Product = {
+  productId: string;
   title: string;
   modelKey: ModelKey;
   variant: Variant;
@@ -307,6 +308,8 @@ function ProductCard({
     const safeQty = Number.isNaN(parsedQty) ? 1 : Math.min(10, Math.max(1, parsedQty));
     const url =
       `/preorder?productType=${encodeURIComponent(product.title)}` +
+      `&productId=${encodeURIComponent(product.productId)}` +
+      `&productName=${encodeURIComponent(product.title)}` +
       `&modelKey=${encodeURIComponent(product.modelKey)}` +
       `&variant=${encodeURIComponent(product.variant)}` +
       `&color=${encodeURIComponent(color)}` +

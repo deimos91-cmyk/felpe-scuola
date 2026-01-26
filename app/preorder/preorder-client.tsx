@@ -7,6 +7,8 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 
 type OrderParams = {
+  productId?: string;
+  productName?: string;
   productType: string;
   modelKey: string;
   variant: string;
@@ -33,6 +35,8 @@ export default function PreorderClient() {
     const params = Object.fromEntries(searchParams?.entries() ?? []);
     const qty = Math.min(10, Math.max(1, Number(params.qty) || 1));
     return {
+      productId: params.productId ?? "",
+      productName: params.productName ?? params.productType ?? "",
       productType: params.productType ?? "",
       modelKey: params.modelKey ?? "",
       variant: params.variant ?? "",
@@ -67,6 +71,8 @@ export default function PreorderClient() {
     try {
       setSubmitting(true);
       await addDoc(collection(db, "orders"), {
+        productId: order.productId || null,
+        productName: order.productName || null,
         productType: order.productType,
         modelKey: order.modelKey,
         variant: order.variant,

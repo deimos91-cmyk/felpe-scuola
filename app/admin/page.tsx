@@ -28,6 +28,8 @@ type OrderRow = {
   size: string;
   color: string;
   qty: number;
+  productId?: string;
+  productName?: string;
   notes?: string;
   status: string;
   createdAt?: Date | null;
@@ -75,6 +77,8 @@ export default function AdminPage() {
           size: data.size ?? "",
           color: data.color ?? "",
           qty: data.qty ?? 0,
+          productId: data.productId ?? "",
+          productName: data.productName ?? "",
           notes: data.notes ?? "",
           status: data.status ?? "new",
           createdAt,
@@ -331,6 +335,7 @@ export default function AdminPage() {
                     <th style={thStyle}>Nome</th>
                     <th style={thStyle}>Classe</th>
                     <th style={thStyle}>Contatto</th>
+                    <th style={thStyle}>Modello</th>
                     <th style={thStyle}>Taglia</th>
                     <th style={thStyle}>Colore</th>
                     <th style={thStyle}>Qty</th>
@@ -346,6 +351,7 @@ export default function AdminPage() {
                       <td style={tdStyle}>{order.name}</td>
                       <td style={tdStyle}>{order.className}</td>
                       <td style={tdStyle}>{order.contact}</td>
+                      <td style={tdStyle}>{order.productName || order.productId || "-"}</td>
                       <td style={tdStyle}>{order.size}</td>
                       <td style={tdStyle}>{order.color}</td>
                       <td style={tdStyle}>{order.qty}</td>
