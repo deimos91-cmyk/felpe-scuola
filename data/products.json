@@ -17,7 +17,7 @@
     "description": "Hoodie riciclata per ragazzi.",
     "details": ["Fit oversize", "Cotone e poliestere riciclati", "Peso 280 gr"],
     "colors": ["Bianco", "Blu", "Grigio", "Nero"],
-    "sizes": ["XS", "S", "M", "L"]
+    "sizes": ["2/4 anni", "4/6 anni", "6/8 anni", "8/10 anni", "10/12 anni", "12/14 anni"]
   },
   {
     "title": "Maglietta Adulto",
@@ -37,7 +37,7 @@
     "description": "T-shirt biologica per bambini.",
     "details": ["Fit regular", "Cotone biologico", "Peso 140 gr"],
     "colors": ["Bianco", "Blu-Navy", "Bordeaux", "Celeste", "Cream", "Grigio-Oxford", "Havana", "Nero", "Rosa-Petalo", "Verde-Bosco"],
-    "sizes": ["2/4", "4/6", "6/8", "8/10", "10/12", "12/14"]
+    "sizes": ["2/4 anni", "4/6 anni", "6/8 anni", "8/10 anni", "10/12 anni", "12/14 anni"]
   },
   {
     "title": "Borraccia",
